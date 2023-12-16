@@ -45,3 +45,76 @@ For Debian 11:
 #sudo systemctl --type=service --state=active | grep mongod
 
 
+*****instal OpenSearch******
+
+
+1. Import the public GPG key. This key is used to verify that the APT repository is signed.
+#curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp | sudo apt-key add -
+
+2. Create an APT repository for OpenSearch.
+#echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-2.x.list
+
+3. Verify that the repository was created successfully.
+#sudo apt-get update
+
+4. With the repository information added, list all available versions of OpenSearch:
+#sudo apt list -a opensearch
+
+5. Choose the version of OpenSearch you want to install. (Unless otherwise indicated, the latest available version of OpenSearch is installed.)
+#sudo apt-get install opensearch
+
+To install a specific version of OpenSearch, specify the version manually using opensearch=<version>.
+#sudo apt-get install opensearch=2.9.0
+
+
+Graylog Configuration for OpenSearch
+
+1. Begin by opening the yml file.
+#sudo nano /etc/opensearch/opensearch.yml
+2. Update the following fields for a minimum unsecured running state (single node).
+cluster.name: graylog
+node.name: ${HOSTNAME}
+path.data: /var/lib/opensearch
+path.logs: /var/log/opensearch
+discovery.type: single-node
+network.host: 0.0.0.0
+action.auto_create_index: false
+plugins.security.disabled: true
+
+
+3. Enable JVM options.
+#sudo nano /etc/opensearch/jvm.options
+
+4. Now, update the Xms and Xmx settings with half of the installed system memory, like shown in the example below.
+## JVM configuration
+################################################################
+## IMPORTANT: JVM heap size
+################################################################
+##
+## You should always set the min and max JVM heap
+## size to the same value. For example, to set
+## the heap to 4 GB, set:
+##
+## -Xms4g
+## -Xmx4g
+##
+## See https://opensearch.org/docs/opensearch/install/important-settings/
+## for more information
+##
+################################################################
+# Xms represents the initial size of total heap space
+# Xmx represents the maximum size of total heap space
+-Xms1g
+-Xmx1g
+
+
+5. Configure the kernel parameters at runtime.
+#sudo sysctl -w vm.max_map_count=262144
+#sudo echo 'vm.max_map_count=262144' >> /etc/sysctl.conf
+
+
+6. Finally, enable the system service.
+#sudo systemctl daemon-reload
+#sudo systemctl enable opensearch.service
+#sudo systemctl start opensearch.service
+
