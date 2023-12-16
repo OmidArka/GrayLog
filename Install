@@ -1,1 +1,47 @@
 install
+
+
+To install Graylog, the following prerequisites are required:
+
+OpenJDK
+OpenSearch
+MongoDB
+Elasticsearch
+GrayLog
+
+
+*******Install MongoDB******
+
+1. Install the cryptographic libraries required for the repository keys.
+
+# sudo apt-get install gnupg
+
+
+2. Import the key.
+
+
+#wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+
+
+3. Add the Debian repo to the APT list.
+
+For Debian 10:
+# echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/6.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+For Debian 11:
+# echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/6.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+4. Update repository package.
+# sudo apt-get update
+
+
+5. Install the latest stable version of MongoDB.
+# sudo apt-get install -y mongodb-org
+
+6. The final step is to enable MongoDB during the operating system’s start up.
+
+#sudo systemctl daemon-reload
+#sudo systemctl enable mongod.service
+#sudo systemctl restart mongod.service
+#sudo systemctl --type=service --state=active | grep mongod
+
+
