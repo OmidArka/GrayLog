@@ -1,3 +1,5 @@
+Sending logs from Graylog to Splunk
+OmidArka
 Graylog plugin for Splunk
 =========================
 
@@ -53,6 +55,13 @@ In Graylog, go to the outputs configuration of a stream and add a new "Splunk
 output" like this:
 
 ![](https://github.com/graylog-labs/graylog-plugin-splunk/blob/master/images/screenshot3.png)
+
+
+After installing and configuring the software in Graylog
+and the output configuration, enter the streams section
+And from there you define the default stream from the output management section
+
+![](https://www.google.com/url?sa=i&url=https%3A%2F%2Farchivedocs.graylog.org%2Fen%2Flatest%2Fpages%2Fstreams.html&psig=AOvVaw2o5v-kL-IBVHMLctcgDqtM&ust=1709021322642000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKCqk9nGyIQDFQAAAAAdAAAAABBG).
 
 All messages coming into that stream should now be forwarded to your Splunk setup
 in realtime.
