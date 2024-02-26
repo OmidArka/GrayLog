@@ -61,7 +61,8 @@ After installing and configuring the software in Graylog
 and the output configuration, enter the streams section
 And from there you define the default stream from the output management section
 
-![](https://archivedocs.graylog.org/en/latest/pages/streams.html).
+![stream_overview](https://github.com/OmidArka/GrayLog/assets/153341501/6296afd3-78c8-4e4f-80f7-1d7f413b47f1)
+
 
 All messages coming into that stream should now be forwarded to your Splunk setup
 in realtime.
