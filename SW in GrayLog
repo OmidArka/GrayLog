@@ -1,0 +1,9 @@
+loggin host 10.97.80.122 transport udp port 1514
+loggin on
+loggin trap 5
+loggin his 5
+loggin ori hos
+loggin cons
+logg sou vlan 99
+servi seq
+servic tim log
