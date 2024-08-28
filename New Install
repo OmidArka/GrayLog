@@ -1,0 +1,45 @@
+Made by Nats
+
+Before anything : 
+sudo apt install wget curl gnupg software-properties-common apt-transport-https ca-certificates lsb-release pwgen
+
+Install Elasticsearch 7:
+
+curl  -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/elastic.gpg
+echo "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main" | sudo tee  /etc/apt/sources.list.d/elastic-7.x.list
+
+sudo apt update
+sudo apt install elasticsearch-oss
+
+
+nano /etc/elasticsearch/elasticsearch.yml // add "action.auto_create_index: false"
+
+systemctl enable --now elasticsearch
+
+
+Install MongoDB:
+
+curl -fsSL https://www.mongodb.org/static/pgp/server-6.0.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/mongodb-6.gpg
+echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/6.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+
+sudo apt install mongodb-org
+
+systemctl enable --now mongod
+
+
+Install Java JDK 17:
+
+sudo apt install openjdk-17-jdk
+
+
+Install graylog:
+
+wget https://packages.graylog2.org/repo/packages/graylog-5.0-repository_latest.deb
+sudo dpkg -i graylog-5.0-repository_latest.deb
+sudo apt update && sudo apt install graylog-server
+
+pwgen -N 1 -s 96
+echo -n yourpassword | shasum -a 256
+
+nano /etc/graylog/server/server.conf
