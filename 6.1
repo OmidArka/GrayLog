@@ -1,0 +1,38 @@
+مراحل نصب : 
+sudo timedatectl set-timezone Asia/Tehran
+sudo apt-get update
+sudo apt-get install gnupg curl
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+   --dearmor
+echo "deb [signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/7.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl daemon-reload
+sudo systemctl enable mongod.service
+sudo systemctl restart mongod.service
+sudo systemctl --type=service --state=active | grep mongod
+sudo apt-mark hold mongodb-org
+
+wget https://packages.graylog2.org/repo/packages/graylog-6.1-repository_latest.deb
+sudo apt install ./graylog-6.1-repository_latest.deb
+sudo apt-get update
+sudo apt-get install graylog-datanode
+cat /proc/sys/vm/max_map_count
+sudo /sbin/sysctl -w vm.max_map_count=262144
+echo " vm.max_map_count=262144 "| sudo tee /etc/sysctl.d/99-graylog-datanode.conf
+sudo /sbin/sysctl -p
+< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c${1:-96};echo;
+sudo nano /etc/graylog/datanode/datanode.conf
+sudo systemctl enable graylog-datanode.service
+sudo systemctl start graylog-datanode
+sudo apt-get install graylog-server
+sudo apt-get install graylog-enterprise
+echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1
+sudo vim.tiny /etc/graylog/server/server.conf
+sudo sed -i 's/#http_bind_address = 127.0.0.1.*/http_bind_address = 0.0.0.0:9000/g' /etc/graylog/server/server.conf
+sudo systemctl daemon-reload
+sudo systemctl enable graylog-server.service
+sudo systemctl start graylog-server.service
+sudo systemctl --type=service --state=active | grep graylog
+tail /var/log/graylog-server/server.log
