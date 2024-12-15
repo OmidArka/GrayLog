@@ -24,12 +24,15 @@ echo " vm.max_map_count=262144 "| sudo tee /etc/sysctl.d/99-graylog-datanode.con
 sudo /sbin/sysctl -p
 < /dev/urandom tr -dc A-Z-a-z-0-9 | head -c${1:-96};echo;
 sudo nano /etc/graylog/datanode/datanode.conf
+توی این فایل قسمت سکرت پسورد پسورد هش شده میزنیم 
 sudo systemctl enable graylog-datanode.service
 sudo systemctl start graylog-datanode
 sudo apt-get install graylog-server
 sudo apt-get install graylog-enterprise
 echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1
 sudo vim.tiny /etc/graylog/server/server.conf
+تو این فایل پسورد انتخابی در قسمت پسورد روت میزنیم و قسمت پسورد سکرت همون قبلی میزنیم 
+پسورد روت رو توی گریلاگ دیتا نود هم میزنیم 
 sudo sed -i 's/#http_bind_address = 127.0.0.1.*/http_bind_address = 0.0.0.0:9000/g' /etc/graylog/server/server.conf
 sudo systemctl daemon-reload
 sudo systemctl enable graylog-server.service
